@@ -16,7 +16,11 @@ export const ensureAuthenticated = (
 /*
 FIX ME (types) 😭
 */
-export const forwardAuthenticated = (req: any, res: any, next: any) => {
+export const forwardAuthenticated = (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
   if (!req.isAuthenticated()) {
     return next();
   }
