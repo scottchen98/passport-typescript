@@ -36,6 +36,20 @@ const userModel = {
     }
     throw new Error(`Couldn't find user with id: ${id}`);
   },
+  findOrCreate: (id: number, name: string) => {
+    const user = database.find((user) => user.id === id);
+    if (user) {
+      return user;
+    }
+    const newUser = {
+      id,
+      name,
+      email: "",
+      password: "",
+    };
+    database.push(newUser);
+    return newUser;
+  },
 };
 
 export { database, userModel };

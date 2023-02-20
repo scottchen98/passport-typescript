@@ -24,4 +24,8 @@ function isUserValid(user: any, password: string) {
   throw new Error("Password is incorrect");
 }
 
-export { getUserByEmailIdAndPassword, getUserById };
+const findOrCreateUser = (id: number, name: string) => {
+  return userModel.findOrCreate(id, name);
+};
+
+export { getUserByEmailIdAndPassword, getUserById, findOrCreateUser };
