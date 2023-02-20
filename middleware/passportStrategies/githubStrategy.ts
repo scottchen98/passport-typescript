@@ -1,11 +1,12 @@
 import { Strategy as GitHubStrategy } from "passport-github2";
 import { PassportStrategy } from "../../interfaces/index";
+require("dotenv").config();
 
 const githubStrategy: GitHubStrategy = new GitHubStrategy(
   {
-    clientID: "",
-    clientSecret: "",
-    callbackURL: "",
+    clientID: process.env.CLIENT_ID ? process.env.CLIENT_ID : "",
+    clientSecret: process.env.CLIENT_SECRET ? process.env.CLIENT_SECRET : "",
+    callbackURL: "http://localhost:8000/auth/github/callback",
     passReqToCallback: true,
   },
 
