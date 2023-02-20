@@ -8,7 +8,6 @@ const getUserByEmailIdAndPassword = (email: string, password: string) => {
       return user;
     }
   }
-  throw new Error("Password is incorrect");
 };
 const getUserById = (id: any) => {
   let user = userModel.findById(id);
@@ -22,7 +21,7 @@ function isUserValid(user: any, password: string) {
   if (user.password === password) {
     return true;
   }
-  throw new Error("Password is inccorect");
+  throw new Error("Password is incorrect");
 }
 
 export { getUserByEmailIdAndPassword, getUserById };
