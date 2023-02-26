@@ -1,6 +1,6 @@
 import express from "express";
 import expressLayouts from "express-ejs-layouts";
-import session from "express-session";
+import session, { MemoryStore } from "express-session";
 import path from "path";
 import passportMiddleware from "./middleware/passportMiddleware";
 
@@ -10,8 +10,11 @@ const app = express();
 
 app.set("view engine", "ejs");
 app.use(express.static(path.join(__dirname, "public")));
+
+const memoryStore = new MemoryStore();
 app.use(
   session({
+    store: memoryStore,
     secret: "secret",
     resave: false,
     saveUninitialized: false,
@@ -50,3 +53,5 @@ app.use("/auth", authRoute);
 app.listen(port, () => {
   console.log(`🚀 Server has started on port ${port}`);
 });
+
+export default memoryStore;
