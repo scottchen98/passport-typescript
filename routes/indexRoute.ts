@@ -16,6 +16,14 @@ router.get("/dashboard", ensureAuthenticated, (req, res) => {
   });
 });
 
+interface User {
+  id: number;
+  name: string;
+  email: string;
+  password: string;
+  role: string;
+}
+
 router.get(
   "/admin",
   ensureAuthenticated,
@@ -27,21 +35,42 @@ router.get(
       } else {
         if (sessions) {
           const sessionIds = Object.keys(sessions);
-          const sessionList = sessionIds.map((sid) => {
-            return {
-              sessionId: sid,
-              userId: (sessions[sid] as any).passport.user,
-            };
-          });
-          console.log("UPDATEEEEE: ", sessionList);
+          console.log("CHECK HERE: ", sessionIds);
+          const sessionList = sessionIds
+            .filter((sid) => {
+              return (
+                (sessions[sid] as any).passport &&
+                (sessions[sid] as any).passport.user
+              );
+            })
+            .map((sid) => {
+              return {
+                sessionId: sid,
+                userId: (sessions[sid] as any).passport.user,
+              };
+            });
+
+          console.log("AFTER: ", sessionList);
+
           res.render("admin", {
             allSessions: sessionList,
-            currentSessionUser: req.user ? (req.user as any).name : undefined,
+            currentSessionUser: req.user ? (req.user as User).name : undefined,
           });
         }
       }
     });
   }
 );
+
+router.post("/revoke-session", (req, res) => {
+  const sessionId = req.body.revokeUser;
+  memoryStore.destroy(sessionId, (error) => {
+    if (error) {
+      console.log(error);
+    }
+    console.log("REVOKED SESSION");
+    res.redirect("/admin");
+  });
+});
 
 export default router;
