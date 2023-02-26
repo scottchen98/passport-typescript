@@ -8,13 +8,15 @@
   <hr />
   <p>SessionID: <%= session.sessionId %></p>
   <p>UserID: <%= session.userId %></p>
-  <a
-    href="/revoke-session"
-    class="text-primary"
-    name="revokeUser"
-    value="<%= session.sessionId %>"
-    >Revoke Session</a
-  >
+  <form action="/revoke-session" method="post">
+    <button
+      class="btn btn-link text-primary"
+      name="revokeUser"
+      value="<%= session.sessionId %>"
+    >
+      Revoke Session
+    </button>
+  </form>
   <hr />
 </div>
 <% }) %>
