@@ -15,6 +15,18 @@ interface GitHubProfile {
   _json: JSON;
 }
 
+declare global {
+  namespace Express {
+    interface User {
+      id: number;
+      name: string;
+      email?: string;
+      password?: string;
+      role: string;
+    }
+  }
+}
+
 const githubStrategy: GitHubStrategy = new GitHubStrategy(
   {
     clientID: process.env.CLIENT_ID ? process.env.CLIENT_ID : "",
